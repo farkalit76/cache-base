@@ -1,0 +1,112 @@
+pipeline {
+    agent {
+		label 'microservices'
+	}
+    tools {
+        maven 'Maven'
+        jdk 'Java8'
+    }
+    stages {
+        stage ('Compile') {
+            steps {
+               sh 'mvn clean compile'
+            }
+        }
+	
+		stage ('Code analysis') {
+			steps {
+			   sh 'mvn findbugs:findbugs checkstyle:checkstyle'
+			}
+		}
+
+		stage ('Test') {
+			steps {
+				sh 'mvn -DskipTests=${skipTests} test' 
+			}
+		}
+		
+		stage ('SQ Code analysis & Test Coverage') {
+			when {
+    			expression {
+        			return env.CHANGE_TARGET == 'develop' || env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop'
+        		}
+    		}
+			steps {
+			    echo 'Sonar cube analysis for branch ' + env.BRANCH_NAME + ' Change Branch:' + env.CHANGE_BRANCH + ' Change Id:' + env.CHANGE_ID
+				withSonarQubeEnv('Sonarqube') {
+				  script {
+    				  if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'master') {
+    	              	sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.1.1688:sonar -Dsonar.branch.name='+env.BRANCH_NAME	                        
+    	              } else {
+    	                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.1.1688:sonar -Dsonar.pullrequest.branch='+env.CHANGE_BRANCH+ ' -Dsonar.pullrequest.base='+ env.CHANGE_TARGET+' -Dsonar.pullrequest.key='+env.CHANGE_ID	                        
+    	              }  
+				  }
+				}
+
+			}
+		}
+		
+		/*stage('SQ Quality Gate') {
+		  when {
+    			expression {
+        			return env.CHANGE_TARGET == 'develop' || env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop'
+        		}
+    	  }
+		  steps {
+			timeout(time: 1, unit: 'HOURS') {
+			  waitForQualityGate abortPipeline: true
+			}
+		  }
+		}*/
+		
+		stage ('Package') {
+			when {
+    			expression {
+        			env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop'
+        		}
+    		}
+			steps {
+				echo 'Package for branch ' + env.BRANCH_NAME
+			    // package will tag with git-hash and also latest
+				sh 'mvn package'
+			}
+		}
+	
+		stage ('Push to DTR') {
+			when {
+    			expression {
+        			env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop'
+        		}
+    		}
+			steps {
+				echo 'Push to DTR for branch ' + env.BRANCH_NAME
+				sh 'mvn -DskipTests=true -Dfindbugs.skip dockerfile:push@push-latest'
+				sh 'mvn -DskipTests=true -Dfindbugs.skip dockerfile:push@push-version'
+			}
+		}
+	}
+	
+	post {
+		always {
+            deleteDir() /* clean up our workspace */
+        }
+		
+        success {
+        	script {
+				if (env.GIT_BRANCH == 'origin/master') {
+				// deletes current ${git-tag} tag
+				sh "git tag -d env.git-tag || true"
+				// tags current changeset
+				sh "git tag -a env.git-tag -m \"Passed CI\""
+				// deletes tag on remote in order not to fail pushing the new one
+				sh "git push origin :refs/tags/env.git-tag"
+				// pushes the tags
+				sh "git push --tags"
+				} else {
+					echo 'It is not master branch, no tagging will happen.'
+				}
+			}
+        }
+	}
+}
+

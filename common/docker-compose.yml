@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  common-services:
+    image: dtr.dubai.ae/sdg/paperless-common-services:latest
+    ports:
+      - 9090:9090
+    environment:
+      PROFILE: qa
+    secrets:
+    - REDIS_HOSTNAME
+    - REDIS_PORT
+    - REDIS_PASSWORD
+    - COMMONSERVICES_PASSWORD
+secrets:
+  REDIS_HOSTNAME:
+    external: true
+  REDIS_PORT:
+    external: true
+  REDIS_PASSWORD:
+    external: true
+  COMMONSERVICES_PASSWORD:
+    external: true

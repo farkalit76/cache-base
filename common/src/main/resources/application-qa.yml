@@ -1,0 +1,26 @@
+server:
+  port: 9090
+  servlet:
+    contextPath: /paperless-common-services
+sdg:
+  logging:
+    logLevelVerbose: true 
+  cache: 
+    packages: 
+      ae.gov.sdg.paperless.services.cache.provider.redis
+  service:
+    otp:
+      length: 4
+      timeLimit: 4
+      remAtmpt: 3
+    sms:
+      url: "https://api.qa.dubai.gov.ae/secure/sdg/sms/1.0.0"
+      clientid: "${DUBAINOW_MICROSERVICE_CLIENT_ID}"
+      clientsecret: "${DUBAINOW_MICROSERVICE_CLIENT_SECRET}"
+      userauthorization: "ZGVnbXBheTpkZWdtcGF5MDg="
+    ids.oauth2.token.api: "https://ids.qa.dubai.gov.ae/oauth2/token"
+commonservice: 
+  authentication: 
+    password: "${COMMONSERVICES_PASSWORD}"
+    roles: "USER,ADMIN"
+    userName: "${COMMONSERVICES_USERNAME}"

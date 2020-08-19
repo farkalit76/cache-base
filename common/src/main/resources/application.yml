@@ -1,0 +1,28 @@
+server:
+  port: 9090
+  servlet:
+    contextPath: /paperless-common-services
+sdg:
+  logging:
+    logLevelVerbose: true
+  cache:
+    packages:
+      ae.gov.sdg.paperless.services.cache.provider.inmemory
+  service:
+    otp:
+      length: 4
+      timeLimit: 4
+      remAtmpt: 3
+    sms:
+      url: "https://api.qa.dubai.gov.ae/secure/sdg/sms/1.0.0"
+      clientid: "6g85qChuuMAjsKWBa7f3vbQtTAIa"
+      clientsecret: "VmOtXZ7RHjjyj6cWKWWs314tmWka"
+      userauthorization: "ZGVnbXBheTpkZWdtcGF5MDg="
+    ids.oauth2.token.api: "https://ids.qa.dubai.gov.ae/oauth2/token"
+commonservice:
+  authentication:
+    password: password
+    roles: "USER,ADMIN"
+    userName: sdguser
+docker-secret:
+  bind-path: /run/secrets

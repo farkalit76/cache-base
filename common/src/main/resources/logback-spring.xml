@@ -1,0 +1,521 @@
+<configuration>
+	<springProfile name="native">
+		<property name="LOG_PATH" value="." />
+		<property name="FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; msg='%msg'%n" />
+		<property name="CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot;  msg='%msg'%n" />
+		<property name="ERROR_FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		<property name="ERROR_CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		<appender name="errorConsole"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="console"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>DENY</onMatch>
+				<onMismatch>ACCEPT</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<root level="error">
+			<appender-ref ref="errorConsole" />
+		</root>
+		<root level="info">
+			<appender-ref ref="console" />
+		</root>
+
+		<root level="debug">
+			<appender-ref ref="console" />
+		</root>
+		<root level="trace">
+			<appender-ref ref="console" />
+		</root>
+	</springProfile>
+
+
+
+	<springProfile name="local">
+		<property name="LOG_PATH" value="/Users/c_sumeet.chopra/temp/Logs" />
+		<property name="FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; msg='%msg'%n" />
+		<property name="CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot;  msg='%msg'%n" />
+		<property name="ERROR_FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		<property name="ERROR_CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		
+		<appender name="errorConsole"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="console"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>DENY</onMatch>
+				<onMismatch>ACCEPT</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="errorLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_error.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_error_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="infoLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_info.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>INFO</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_info_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="debugLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_debug.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>DEBUG</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_debug_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="traceLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_trace.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>TRACE</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_trace_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+
+
+		<root level="error">
+			<appender-ref ref="errorLog" />
+			<appender-ref ref="errorConsole" />
+		</root>
+		<root level="info">
+			<appender-ref ref="infoLog" />
+			<appender-ref ref="console" />
+		</root>
+		<root level="debug">
+			<appender-ref ref="debugLog" />
+			<appender-ref ref="console" />
+		</root>
+		<root level="trace">
+			<appender-ref ref="traceLog" />
+			<appender-ref ref="console" />
+		</root>
+	</springProfile>
+
+
+
+	<springProfile name="dev">
+		<property name="LOG_PATH" value="." />
+		<property name="FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; msg='%msg'%n" />
+		<property name="CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot;  msg='%msg'%n" />
+
+		<property name="ERROR_FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		<property name="ERROR_CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		
+		<appender name="errorConsole"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="console"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>DENY</onMatch>
+				<onMismatch>ACCEPT</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="errorLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_error.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_error_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="infoLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_info.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>INFO</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_info_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="debugLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_debug.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>DEBUG</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_debug_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="traceLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_trace.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>TRACE</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_trace_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+
+		<root level="error">
+			<appender-ref ref="errorLog" />
+			<appender-ref ref="errorConsole" />
+		</root>
+		<root level="info">
+			<appender-ref ref="infoLog" />
+			<appender-ref ref="console" />
+		</root>
+		<!--
+		<root level="debug">
+			<appender-ref ref="debugLog" />
+			<appender-ref ref="console" />
+		</root>
+		<root level="trace">
+			<appender-ref ref="traceLog" />
+			<appender-ref ref="console" />
+		</root>-->
+	</springProfile>
+
+
+
+	<springProfile name="qa">
+		<property name="LOG_PATH" value="/eserv/dncommonsrv_qa" />
+		<property name="FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; msg='%msg'%n" />
+		<property name="CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot;  msg='%msg'%n" />
+		<property name="ERROR_FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		<property name="ERROR_CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		<appender name="errorConsole"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="console"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>DENY</onMatch>
+				<onMismatch>ACCEPT</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="errorLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_error.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_error_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="infoLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_info.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>INFO</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_info_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="debugLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_debug.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>DEBUG</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_debug_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<!-- <appender name="traceLog" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+			<file>${LOG_PATH}/dncommonservices_trace.log</file> <filter class="ch.qos.logback.classic.filter.LevelFilter"> 
+			<level>TRACE</level> <onMatch>ACCEPT</onMatch> <onMismatch>DENY</onMismatch> 
+			</filter> <encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder"> <pattern>${FILE_PATTERN}</pattern> </encoder> <rollingPolicy 
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> <fileNamePattern>${LOG_PATH}/dncommonservices_trace_%d{dd-MM-yyyy}.log 
+			</fileNamePattern> </rollingPolicy> </appender> -->
+
+
+
+		<root level="error">
+			<appender-ref ref="errorLog" />
+			<appender-ref ref="errorConsole" />
+		</root>
+		<root level="info">
+			<appender-ref ref="infoLog" />
+			<appender-ref ref="console" />
+		</root>
+		<!-- <root level="debug"> <appender-ref ref="debugLog" /> </root> <root 
+			level="trace"> <appender-ref ref="traceLog" /> </root> -->
+	</springProfile>
+
+
+
+	<springProfile name="prod">
+		<property name="LOG_PATH" value="/eserv/dncommonsrv_prod" />
+		<property name="FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; msg='%msg'%n" />
+		<property name="CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot;  msg='%msg'%n" />
+		<property name="ERROR_FILE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		<property name="ERROR_CONSOLE_PATTERN"
+			value="%d{yyyy/MM/dd HH:mm:ss.SSS,UTC} UTC hostname=&quot;${HOSTNAME}&quot; logId=&quot;%logId&quot; thread=&quot;%thread&quot; sid=&quot;%X{x-DN-Sid}&quot; tid=&quot;%X{x-DN-Traceid}&quot; spid=&quot;%X{spanId}&quot; platform=&quot;%X{x-DN-Platform}&quot; appVersion=&quot;%X{x-DN-AppVersion}&quot; level=%-5level operation=&quot;%class{36}.%M %L&quot; errorCode=&quot;%X{errorCode}&quot; errorSeverity=&quot;%X{errorSeverity}&quot; msg='%msg'%n" />
+		
+		<appender name="errorConsole"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="console"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>DENY</onMatch>
+				<onMismatch>ACCEPT</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${CONSOLE_PATTERN}</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="errorLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_error.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>ERROR</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${ERROR_FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_error_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="infoLog"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${LOG_PATH}/dncommonservices_info.log</file>
+			<filter class="ch.qos.logback.classic.filter.LevelFilter">
+				<level>INFO</level>
+				<onMatch>ACCEPT</onMatch>
+				<onMismatch>DENY</onMismatch>
+			</filter>
+			<encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder">
+				<pattern>${FILE_PATTERN}</pattern>
+			</encoder>
+			<rollingPolicy
+				class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_PATH}/dncommonservices_info_%d{dd-MM-yyyy}.log
+				</fileNamePattern>
+			</rollingPolicy>
+		</appender>
+
+		<!-- <appender name="debugLog" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+			<file>${LOG_PATH}/dncommonservices_debug.log</file> <filter class="ch.qos.logback.classic.filter.LevelFilter"> 
+			<level>DEBUG</level> <onMatch>ACCEPT</onMatch> <onMismatch>DENY</onMismatch> 
+			</filter> <encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder"> <pattern>${FILE_PATTERN}</pattern> </encoder> <rollingPolicy 
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> <fileNamePattern>${LOG_PATH}/dncommonservices_debug_%d{dd-MM-yyyy}.log 
+			</fileNamePattern> </rollingPolicy> </appender> <appender name="traceLog" 
+			class="ch.qos.logback.core.rolling.RollingFileAppender"> <file>${LOG_PATH}/dncommonservices_trace.log</file> 
+			<filter class="ch.qos.logback.classic.filter.LevelFilter"> <level>TRACE</level> 
+			<onMatch>ACCEPT</onMatch> <onMismatch>DENY</onMismatch> </filter> <encoder class="ae.gov.sdg.paperless.services.common.tracing.LogIdPatternLayoutEncoder"> 
+			<pattern>${FILE_PATTERN}</pattern> </encoder> <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+			<fileNamePattern>${LOG_PATH}/dncommonservices_trace_%d{dd-MM-yyyy}.log </fileNamePattern> 
+			</rollingPolicy> </appender> -->
+
+
+		<root level="error">
+			<appender-ref ref="errorLog" />
+		</root>
+		<root level="info">
+			<appender-ref ref="infoLog" />
+		</root>
+		<!-- <root level="debug"> <appender-ref ref="debugLog" /> </root> <root 
+			level="trace"> <appender-ref ref="traceLog" /> </root> -->
+
+	</springProfile>
+
+
+
+</configuration>

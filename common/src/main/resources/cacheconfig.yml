@@ -1,0 +1,6 @@
+dubainow:
+  cache:
+    ttl:
+      publiccache:
+        otp: "minutes:3"
+      defaultcache: "minutes:480"

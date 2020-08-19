@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: paperless-common-services
+  profiles:
+    active: default
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh       

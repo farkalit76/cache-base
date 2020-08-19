@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.4.RELEASE</version>
+		<relativePath />
+	</parent>
+	<groupId>ae.gov.sdg</groupId>
+	<artifactId>paperless-common-services</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>Paperless Common Services</name>
+	<description>Microservice with Common Services for Paperless</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+		<springfox-swagger.version>2.8.0</springfox-swagger.version>
+		<checkstyle.file.path>checkstyle.xml</checkstyle.file.path>
+		<checkstyle.latest.version>8.11</checkstyle.latest.version>
+		<jmockit.version>1.41</jmockit.version>
+		<jacoco.version>0.8.5</jacoco.version>
+		<spring.core.version>5.0.8.RELEASE</spring.core.version>
+		<start-class>ae.gov.sdg.paperless.services.main.Boot</start-class>
+		<docker.image.name>paperless-common-services</docker.image.name>
+		<docker.image.tag>latest</docker.image.tag>
+		<!-- Sonar Qube properties -->
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.language>java</sonar.language>
+		<sonar.exclusions>test/**/*, **/ae/gov/sdg/paperless/services/main/**/*</sonar.exclusions>
+		
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox-swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox-swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-bean-validators</artifactId>
+			<version>${springfox-swagger.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ae.gov.sdg</groupId>
+			<artifactId>paperless-util</artifactId>
+			<version>0.0.8-Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jmockit</groupId>
+			<artifactId>jmockit</artifactId>
+			<version>${jmockit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.sonarsource.java/sonar-jacoco-listeners -->
+		<dependency>
+			<groupId>org.sonarsource.java</groupId>
+			<artifactId>sonar-jacoco-listeners</artifactId>
+			<version>3.8</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>sdg-artifactory-releases</name>
+			<url>http://devops.sdg.gov.ae:52524/artifactory/SDG-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>sdg-artifactory-snapshots</name>
+			<url>http://devops.sdg.gov.ae:52524/artifactory/SDG-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.0.0</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle.latest.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<!-- Use the Sun Conding Conventions https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/sun_checks.xml -->
+					<configLocation>${checkstyle.file.path}</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<failOnViolation>false</failOnViolation>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<failOnError>true</failOnError>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.9.0</version>
+				<configuration>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+					<targetJdk>${java.version}</targetJdk>
+					<failOnViolation>true</failOnViolation>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+				<configuration>
+					Sets the VM argument line used when unit tests are run.
+					suppress UnresolvedMavenProperty
+					<argLine>${surefireArgLine}</argLine>
+					Skips unit tests if the value of skip.unit.tests property is true
+					<skipTests>${skipTests}</skipTests>
+					Specific to generate mapping between tests and covered code
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>org.sonar.java.jacoco.JUnitListener</value>
+						</property>
+					</properties>
+				</configuration>
+			</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<!--suppress UnresolvedMavenProperty -->
+					<argLine>-Xmx1024m -XX:MaxPermSize=256m
+						${surefireArgLine}</argLine>
+					<!-- Specific to generate mapping between tests and covered code -->
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>org.sonar.java.jacoco.JUnitListener</value>
+						</property>
+					</properties>
+					<!-- Let's put failsafe reports with surefire to have access to tests 
+						failures/success reports in sonar -->
+					<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**/ae/gov/sdg/paperless/services/main/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<forkCount>3</forkCount>
+					<reuseForks>true</reuseForks>
+					<argLine>@{argLine} -Xmx1024m -XX:MaxPermSize=256m</argLine>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+
+				<configuration>
+					<!-- If you'd like to tell the plugin where your .git directory is, 
+						use this setting, otherwise we'll perform a search trying to figure out the 
+						right directory. It's better to add it explicitly IMHO. -->
+					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+					<verbose>false</verbose>
+					<!-- @since 2.1.4 -->
+					<!-- Tell maven-git-commit-id to inject the git properties into all 
+						reactor projects not just the current one. For details about why you might 
+						want to skip this, read this issue: https://github.com/ktoso/maven-git-commit-id-plugin/pull/65 
+						The property is set to ``false`` by default to prevent the overriding of 
+						properties that may be unrelated to the project. -->
+					<injectAllReactorProjects>true</injectAllReactorProjects>
+
+					<!-- @since 2.0.4 -->
+					<!-- true by default, controls whether the plugin will fail when no 
+						.git directory is found, when set to false the plugin will just skip execution -->
+					<failOnNoGitDirectory>false</failOnNoGitDirectory>
+
+
+					<!-- @since v2.0.4 -->
+					<!-- Controls the length of the abbreviated git commit it (git.commit.id.abbrev) 
+						Defaults to `7`. `0` carries the special meaning. Maximum value is `40`, 
+						because of max SHA-1 length. -->
+					<abbrevLength>7</abbrevLength>
+				</configuration>
+
+			</plugin>
+			
+			<!-- <plugin>
+				https://github.com/spotify/dockerfile-maven/issues/10
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>tag-version</id>
+						<goals>
+							<goal>tag</goal>
+						</goals>
+						<configuration>
+							suppress UnresolvedMavenProperty
+							<tag>${git.commit.id.abbrev}</tag>
+						</configuration>
+					</execution>
+					<execution>
+						<id>push-latest</id>
+						<phase>none</phase>
+						<goals>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							<tag>latest</tag>
+						</configuration>
+					</execution>
+					<execution>
+						<id>push-version</id>
+						<phase>none</phase>
+						<goals>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							suppress UnresolvedMavenProperty
+							<tag>${git.commit.id.abbrev}</tag>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>ddtr.dubai.gov.ae/sdg/${docker.image.name}</repository>
+					<tag>${git.commit.id.abbrev}</tag> ${docker.image.tag}
+					<pullNewerImage>false</pullNewerImage>
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+				</configuration>
+			</plugin> -->
+		</plugins>
+	</build>
+
+</project>
